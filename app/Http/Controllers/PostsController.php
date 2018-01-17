@@ -10,7 +10,7 @@ class PostsController extends Controller
     //
     public function index(){
 
-        $posts= Post::all();
+        $posts= Post::latest()->get();
 
         return view('posts.index', compact('posts'));
     }
@@ -38,10 +38,11 @@ class PostsController extends Controller
             'body'=>'required|min:10'
         ]);
 
-        Post::create([
-            'title'=> request('title'),
-            'body'=> request('body')
-        ]);
+        Post::create(request(['title','body']));
+//        Post::create([
+//            'title'=> request('title'),
+//            'body'=> request('body')
+//        ]);
 //
 //        //save it to database
 //        $post->save();
