@@ -11,6 +11,9 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * @param $body
+     */
     public function addComment($body){
 
 //        Comment::create([
