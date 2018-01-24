@@ -11,6 +11,11 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function user(){   //$post->user     $comment->post->user
+
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * @param $body
      */
@@ -24,4 +29,5 @@ class Post extends Model
         $this->comments()->create(compact('body'));
 
     }
+
 }
