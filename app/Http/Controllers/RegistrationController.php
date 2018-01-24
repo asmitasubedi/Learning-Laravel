@@ -1,35 +1,25 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\User;
-
 class RegistrationController extends Controller
 {
-    public function create(){
-
-        return view("registration.create");
-    }
-
-    public function store(){
-
-       //validate the form
-        $this->validate(request(),[
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' =>'required|confirmed'
-            ]);
-
-        //create and save the user
-        $user = User::create(request(['name', 'email', 'password']));
-
-        //sign them in
-        auth()->login($user);
-
-
-        //redirect to the home page
-        return redirect()->home();
-
+    public function create()
+    {
+      return view('registration.create');
+    } 
+    public function store() 
+    {
+      $this->validate(request(), array(
+            'name' => 'required|min:2',
+            'password' => 'required|min:6|confirmed',
+            'email' => 'required|email|unique:users,email'
+        ));
+      $user = new User();
+      $user->name = request('name');
+      $user->password = bcrypt(request('password'));
+      $user->email = request('email');
+      $user->save();
+      return redirect('/login');
     }
 }
